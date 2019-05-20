@@ -21,6 +21,8 @@ public class MenuScreen extends BaseScreen {
     private float bottomBorder;
     private float speedX;
     private float speedY;
+    private Vector2 direction;
+    private boolean isTouched;
 
     @Override
     public void show() {
@@ -28,10 +30,11 @@ public class MenuScreen extends BaseScreen {
         batch = new SpriteBatch();
         img = new Texture("cat.jpg");
         touch = new Vector2();
-        speedX = 1f;
-        speedY = 1f;
+        speedX = 5f;
+        speedY = 5f;
         speed = new Vector2(speedX, speedY);
         position = new Vector2();
+        direction = new Vector2();
     }
 
     @Override
@@ -47,14 +50,26 @@ public class MenuScreen extends BaseScreen {
         leftBorder = position.x;
         bottomBorder = position.y;
 
-        //картинка катается туда-сюда
-        if (leftBorder >= 0 && bottomBorder >= 0) {
-            if (rightBorder < Gdx.graphics.getWidth() && topBorder < Gdx.graphics.getHeight()) {
-                position.add(speed);
-            } else speed.set(-speedX, -speedY);
+        if (isTouched){
+            direction.x = touch.x - position.x;
+            direction.y = touch.y - position.y;
+            direction.nor();
+            speed.scl(direction);
             position.add(speed);
-        } else speed.set(speedX, speedY);
-        position.add(speed);
+            speed.set(speedX, speedY);
+                if (Math.abs(touch.x - position.x) < 1 || Math.abs(touch.y - position.y) < 1){
+                    isTouched = false;
+                }
+        }
+
+        //картинка катается туда-сюда
+//        if (leftBorder >= 0 && bottomBorder >= 0) {
+//            if (rightBorder < Gdx.graphics.getWidth() && topBorder < Gdx.graphics.getHeight()) {
+//                position.add(speed);
+//            } else speed.set(-speedX, -speedY);
+//            position.add(speed);
+//        } else speed.set(speedX, speedY);
+//        position.add(speed);
 
     }
 
@@ -89,6 +104,8 @@ public class MenuScreen extends BaseScreen {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         super.touchDown(screenX, screenY, pointer, button);
         touch.set(screenX, Gdx.graphics.getHeight() - screenY);
+        System.out.println("touch.x = " + touch.x + " touch.y = " + touch.y);
+        isTouched = true;
         return false;
     }
 }
