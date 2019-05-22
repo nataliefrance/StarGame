@@ -18,13 +18,21 @@ public class MenuScreen extends BaseScreen {
     private SpaceCat spaceCat;
     private Texture sc_texture;
 
+    private Vector2 v;
+    private Vector2 buffer;
+
+    private final float LEN = 0.1f;
+
     @Override
     public void show() {
         super.show();
         bg = new Texture("background.png");
         background = new Background(new TextureRegion(bg));
         sc_texture = new Texture("cat.png");
-        spaceCat = new SpaceCat(new TextureRegion(sc_texture));
+        spaceCat = new SpaceCat(new TextureRegion(sc_texture), 0.00f,  0.00f);
+        buffer = new Vector2();
+
+        v = new Vector2(0.01f, 0.01f);
     }
 
     @Override
@@ -35,8 +43,12 @@ public class MenuScreen extends BaseScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         background.draw(batch);
-        spaceCat.draw(batch);
+        spaceCat.draw(batch, spaceCat.pos.x, spaceCat.pos.y);
         batch.end();
+        buffer.set(touch);
+        if (buffer.sub(spaceCat.pos).len() <= LEN){
+            spaceCat.pos.set(touch);
+        } else spaceCat.pos.add(v);
 
     }
 
@@ -56,6 +68,7 @@ public class MenuScreen extends BaseScreen {
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer) {
+        v.set(touch.cpy().sub(spaceCat.pos).setLength(LEN));
         return super.touchDown(touch, pointer);
     }
 

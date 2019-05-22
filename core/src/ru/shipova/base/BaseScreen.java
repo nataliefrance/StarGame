@@ -15,7 +15,7 @@ import ru.shipova.math.Rect;
 public abstract class BaseScreen implements Screen, InputProcessor {
 
     protected SpriteBatch batch;
-    private Vector2 touch;
+    protected Vector2 touch;
     private Rect screenBounds;
     private Rect worldBounds;
     private Rect glBounds;
