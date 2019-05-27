@@ -109,7 +109,6 @@ public abstract class BaseScreen implements Screen, InputProcessor {
 
         touch.set(screenX, screenBounds.getHeight() - screenY).mul(screenToWorld);
         touchDown(touch, pointer);
-        System.out.println(touch.x + " " + touch.y);
         return false;
     }
 

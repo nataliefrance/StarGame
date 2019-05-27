@@ -92,7 +92,7 @@ public class Rect {
         this.halfHeight = height / 2f;
     }
 
-    public boolean isMe(Vector2 touch) {
+    public boolean isMe(Vector2 touch) {//проверяет попал ли вектор в данный прямоугольник
         return touch.x >= getLeft() && touch.x <= getRight() && touch.y >= getBottom() && touch.y <= getTop();
     }
 

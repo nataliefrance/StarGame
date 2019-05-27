@@ -67,4 +67,6 @@ public class Sprite extends Rect {
     public void setScale(float scale) {
         this.scale = scale;
     }
+
+
 }
