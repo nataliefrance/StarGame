@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import ru.shipova.base.BaseScreen;
 import ru.shipova.math.Rect;
 import ru.shipova.sprite.Background;
-import ru.shipova.sprite.SpaceShip;
+import ru.shipova.sprite.MainShip;
 import ru.shipova.sprite.Star;
 
 
@@ -22,7 +22,7 @@ public class GameScreen extends BaseScreen {
     private Background background;
     private TextureAtlas atlas;
     private Star[] starArray;
-    private SpaceShip spaceShip;
+    private MainShip mainShip;
 
     @Override
     public void show() {
@@ -34,7 +34,7 @@ public class GameScreen extends BaseScreen {
         for (int i = 0; i < STAR_COUNT; i++) {
             starArray[i] = new Star(atlas);
         }
-        spaceShip = new SpaceShip(atlas);
+        mainShip = new MainShip(atlas);
     }
 
     @Override
@@ -47,6 +47,7 @@ public class GameScreen extends BaseScreen {
         for (Star star : starArray) {
             star.update(delta);
         }
+        mainShip.update(delta);
     }
 
     private void draw(){
@@ -57,7 +58,7 @@ public class GameScreen extends BaseScreen {
         for (Star star : starArray) {
             star.draw(batch);
         }
-        spaceShip.draw(batch);
+        mainShip.draw(batch);
         batch.end();
     }
 
@@ -68,7 +69,7 @@ public class GameScreen extends BaseScreen {
         for (Star star : starArray) {
             star.resize(worldBounds);
         }
-        spaceShip.resize(worldBounds);
+        mainShip.resize(worldBounds);
     }
 
     @Override
@@ -80,22 +81,25 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public boolean keyDown(int keycode) {
-        spaceShip.move(keycode);
-        return super.keyDown(keycode);
+        mainShip.keyDown(keycode);
+        return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        return super.keyUp(keycode);
+        mainShip.keyUp(keycode);
+        return false;
     }
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer) {
-        return super.touchDown(touch, pointer);
+        mainShip.touchDown(touch, pointer);
+        return false;
     }
 
     @Override
     public boolean touchUp(Vector2 touch, int pointer) {
-        return super.touchUp(touch, pointer);
+        mainShip.touchUp(touch, pointer);
+        return false;
     }
 }

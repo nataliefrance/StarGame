@@ -3,16 +3,16 @@ mainAtlas.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-spaceShip
+mainShip
   rotate: false
   xy: 1, 1
-  size: 200, 225
-  orig: 200, 225
+  size: 200, 109
+  orig: 200, 109
   offset: 0, 0
   index: -1
 star
   rotate: false
-  xy: 203, 176
+  xy: 203, 60
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
