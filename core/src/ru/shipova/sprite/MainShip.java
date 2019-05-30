@@ -1,6 +1,7 @@
 package ru.shipova.sprite;
 
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -26,7 +27,11 @@ public class MainShip extends Sprite {
 
     private boolean pressedLeft;
     private boolean pressedRight;
+
     private Rect worldBounds;
+    private Sound piuSound;
+    private Sound moveSound;
+
     private BulletPool bulletPool;
     private TextureRegion bulletRegion;
 
@@ -42,6 +47,8 @@ public class MainShip extends Sprite {
         v0 = new Vector2(0.5f, 0f);
         bulletV = new Vector2(0, 0.5f);
         bulletPos = new Vector2();
+        piuSound = Gdx.audio.newSound(Gdx.files.internal("audio/piu.mp3"));
+        moveSound = Gdx.audio.newSound(Gdx.files.internal("audio/move.mp3"));
     }
 
     @Override
@@ -106,10 +113,12 @@ public class MainShip extends Sprite {
 
     private void moveRight() {
         v.set(v0);
+        moveSound.play(1.0f);
     }
 
     private void moveLeft() {
         v.set(v0).rotate(180);
+        moveSound.play(1.0f);
     }
 
     private void stop() {
@@ -154,5 +163,6 @@ public class MainShip extends Sprite {
         bulletPos.set(pos);
         bulletPos.y += getHalfHeight();
         bullet.set(this, bulletRegion, bulletPos, bulletV, 0.01f, worldBounds, 1);
+        piuSound.play(1.0f);
     }
 }

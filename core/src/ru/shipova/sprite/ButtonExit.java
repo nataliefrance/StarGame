@@ -8,7 +8,6 @@ import ru.shipova.math.Rect;
 
 public class ButtonExit extends ScaledTouchUpButton {
 
-
     public ButtonExit(TextureAtlas atlas) {
         super(atlas.findRegion("exit"));
         setHeightProportion(0.15f);

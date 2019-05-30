@@ -1,5 +1,7 @@
 package ru.shipova.base;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
@@ -10,8 +12,11 @@ public abstract class ScaledTouchUpButton extends Sprite {
     private int pointer;//каким пальцем нажата кнопка
     private boolean pressed;
 
+    private Sound zhmakSound;
+
     public ScaledTouchUpButton(TextureRegion region) {
         super(region);
+        zhmakSound = Gdx.audio.newSound(Gdx.files.internal("audio/zhmak.mp3"));
     }
 
     @Override
@@ -22,6 +27,7 @@ public abstract class ScaledTouchUpButton extends Sprite {
         this.scale = PRESS_SCALE;
         this.pressed = true;
         this.pointer = pointer;
+        zhmakSound.play(1.0f);
         return false;
     }
 
