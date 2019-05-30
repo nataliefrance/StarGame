@@ -17,3 +17,10 @@ star
   orig: 50, 50
   offset: 0, 0
   index: -1
+bulletMainShip
+  rotate: false
+  xy: 203, 22
+  size: 36, 36
+  orig: 36, 36
+  offset: 0, 0
+  index: -1
