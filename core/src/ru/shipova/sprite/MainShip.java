@@ -23,7 +23,8 @@ public class MainShip extends Sprite {
     private Vector2 v;
     private final Vector2 v0;
     private Vector2 bulletV;
-    private Vector2 bulletPos;
+    private Vector2 bullet1Pos;
+    private Vector2 bullet2Pos;
 
     private boolean pressedLeft;
     private boolean pressedRight;
@@ -40,13 +41,14 @@ public class MainShip extends Sprite {
 
 
     public MainShip(TextureAtlas atlas, BulletPool bulletPool) {
-        super(atlas.findRegion("mainShip"), 1, 2, 2);
+        super(atlas.findRegion("dogShip"), 1, 2, 2);
         this.bulletPool = bulletPool;
         this.bulletRegion = atlas.findRegion("bulletMainShip");
         v = new Vector2();
         v0 = new Vector2(0.5f, 0f);
         bulletV = new Vector2(0, 0.5f);
-        bulletPos = new Vector2();
+        bullet1Pos = new Vector2();
+        bullet2Pos = new Vector2();
         piuSound = Gdx.audio.newSound(Gdx.files.internal("audio/piu.mp3"));
         moveSound = Gdx.audio.newSound(Gdx.files.internal("audio/move.mp3"));
     }
@@ -159,10 +161,16 @@ public class MainShip extends Sprite {
     }
 
     private void shoot(){
-        Bullet bullet = bulletPool.obtain();
-        bulletPos.set(pos);
-        bulletPos.y += getHalfHeight();
-        bullet.set(this, bulletRegion, bulletPos, bulletV, 0.01f, worldBounds, 1);
+        Bullet bullet1 = bulletPool.obtain();
+        Bullet bullet2 = bulletPool.obtain();
+        bullet1Pos.set(pos);
+        bullet1Pos.x -= 0.03f;
+        bullet1Pos.y += 0.03f;
+        bullet2Pos.set(pos);
+        bullet2Pos.x += 0.03f;
+        bullet2Pos.y += 0.03f;
+        bullet1.set(this, bulletRegion, bullet1Pos, bulletV, 0.01f, worldBounds, 1);
+        bullet2.set(this, bulletRegion, bullet2Pos, bulletV, 0.01f, worldBounds, 1);
         piuSound.play(1.0f);
     }
 }

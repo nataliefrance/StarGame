@@ -2,6 +2,7 @@ package ru.shipova.screen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -14,6 +15,7 @@ import ru.shipova.sprite.Background;
 import ru.shipova.sprite.ButtonExit;
 import ru.shipova.sprite.ButtonStart;
 import ru.shipova.sprite.Star;
+import ru.shipova.sprite.Title;
 
 public class MenuScreen extends BaseScreen {
 
@@ -27,6 +29,9 @@ public class MenuScreen extends BaseScreen {
     private Star[] starArray;
     private ButtonExit buttonExit;
     private ButtonStart buttonStart;
+    private Title title;
+
+    private Music music;
 
     public MenuScreen(Game game){
         this.game = game;
@@ -44,6 +49,10 @@ public class MenuScreen extends BaseScreen {
         }
         buttonExit = new ButtonExit(atlas);
         buttonStart = new ButtonStart(atlas, game);
+        title = new Title(atlas);
+        music = Gdx.audio.newMusic(Gdx.files.internal("audio/StarWars.mp3"));
+        music.setVolume(0.2f);
+        music.play();
     }
 
     @Override
@@ -63,6 +72,7 @@ public class MenuScreen extends BaseScreen {
         }
         buttonExit.draw(batch);
         buttonStart.draw(batch);
+        title.draw(batch);
         batch.end();
     }
 
@@ -70,6 +80,7 @@ public class MenuScreen extends BaseScreen {
     public void dispose() {
         bg.dispose();
         atlas.dispose();
+        music.dispose();
         super.dispose();
     }
 
@@ -82,6 +93,7 @@ public class MenuScreen extends BaseScreen {
         }
         buttonExit.resize(worldBounds);
         buttonStart.resize(worldBounds);
+        title.resize(worldBounds);
     }
 
     @Override

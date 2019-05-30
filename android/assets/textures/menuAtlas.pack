@@ -3,23 +3,30 @@ menuAtlas.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+stargame
+  rotate: false
+  xy: 1, 2
+  size: 360, 87
+  orig: 360, 87
+  offset: 0, 0
+  index: -1
 exit
   rotate: false
-  xy: 1, 57
-  size: 420, 150
-  orig: 420, 150
+  xy: 363, 1
+  size: 249, 88
+  orig: 249, 88
   offset: 0, 0
   index: -1
 start
   rotate: false
-  xy: 1, 1
-  size: 150, 54
-  orig: 150, 54
+  xy: 614, 1
+  size: 249, 88
+  orig: 249, 88
   offset: 0, 0
   index: -1
 star
   rotate: false
-  xy: 423, 157
+  xy: 865, 39
   size: 50, 50
   orig: 50, 50
   offset: 0, 0

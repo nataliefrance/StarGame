@@ -1,6 +1,7 @@
 package ru.shipova.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -11,7 +12,6 @@ import ru.shipova.base.BaseScreen;
 import ru.shipova.math.Rect;
 import ru.shipova.pool.BulletPool;
 import ru.shipova.sprite.Background;
-import ru.shipova.sprite.Bullet;
 import ru.shipova.sprite.MainShip;
 import ru.shipova.sprite.Star;
 
@@ -24,9 +24,9 @@ public class GameScreen extends BaseScreen {
     private Background background;
     private TextureAtlas atlas;
     private Star[] starArray;
+    private Music music;
 
     private MainShip mainShip;
-
     private BulletPool bulletPool;
 
     @Override
@@ -41,6 +41,10 @@ public class GameScreen extends BaseScreen {
         }
         bulletPool = new BulletPool();
         mainShip = new MainShip(atlas, bulletPool);
+        music = Gdx.audio.newMusic(Gdx.files.internal("audio/gameMusic.mp3"));
+        music.setVolume(0.2f);
+        music.setLooping(true);
+        music.play();
     }
 
     @Override
@@ -54,8 +58,8 @@ public class GameScreen extends BaseScreen {
         for (Star star : starArray) {
             star.update(delta);
         }
-        mainShip.update(delta);
         bulletPool.updateActiveSprites(delta);
+        mainShip.update(delta);
     }
 
     private void freeAllDestroyedActiveObjects(){
@@ -70,8 +74,8 @@ public class GameScreen extends BaseScreen {
         for (Star star : starArray) {
             star.draw(batch);
         }
-        mainShip.draw(batch);
         bulletPool.drawActiveSprites(batch);
+        mainShip.draw(batch);
         batch.end();
     }
 
@@ -90,6 +94,7 @@ public class GameScreen extends BaseScreen {
         bg.dispose();
         atlas.dispose();
         bulletPool.dispose();
+        music.dispose();
         super.dispose();
     }
 
