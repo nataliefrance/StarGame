@@ -13,8 +13,10 @@ import ru.shipova.pool.BulletPool;
 import static com.badlogic.gdx.Input.Keys.A;
 import static com.badlogic.gdx.Input.Keys.D;
 import static com.badlogic.gdx.Input.Keys.LEFT;
+import static com.badlogic.gdx.Input.Keys.Q;
 import static com.badlogic.gdx.Input.Keys.RIGHT;
 import static com.badlogic.gdx.Input.Keys.UP;
+import static com.badlogic.gdx.Input.Keys.W;
 
 public class MainShip extends Sprite {
 
@@ -29,9 +31,13 @@ public class MainShip extends Sprite {
     private boolean pressedLeft;
     private boolean pressedRight;
 
+    private boolean autoShoot;
+
     private Rect worldBounds;
     private Sound piuSound;
     private Sound moveSound;
+
+    private int autoShootCounter;
 
     private BulletPool bulletPool;
     private TextureRegion bulletRegion;
@@ -64,11 +70,11 @@ public class MainShip extends Sprite {
     public void update(float delta) {
         super.update(delta);
         pos.mulAdd(v, delta);
-        if (getRight() > worldBounds.getRight()){
+        if (getRight() > worldBounds.getRight()) {
             setRight(worldBounds.getRight());
             stop();
         }
-        if (getLeft() < worldBounds.getLeft()){
+        if (getLeft() < worldBounds.getLeft()) {
             setLeft(worldBounds.getLeft());
             stop();
         }
@@ -87,7 +93,11 @@ public class MainShip extends Sprite {
                 moveRight();
                 break;
             case UP:
+            case W:
                 shoot();
+                break;
+            case Q:
+                autoShoot = !autoShoot;
                 break;
         }
         return false;
@@ -160,7 +170,7 @@ public class MainShip extends Sprite {
         return false;
     }
 
-    private void shoot(){
+    private void shoot() {
         Bullet bullet1 = bulletPool.obtain();
         Bullet bullet2 = bulletPool.obtain();
         bullet1Pos.set(pos);
@@ -172,5 +182,15 @@ public class MainShip extends Sprite {
         bullet1.set(this, bulletRegion, bullet1Pos, bulletV, 0.01f, worldBounds, 1);
         bullet2.set(this, bulletRegion, bullet2Pos, bulletV, 0.01f, worldBounds, 1);
         piuSound.play(1.0f);
+    }
+
+    public void autoShoot() {
+        if (autoShoot) {
+            if (autoShootCounter % 60 == 0) {
+                shoot();
+                autoShootCounter = 0;
+            }
+            autoShootCounter++;
+        }
     }
 }

@@ -52,14 +52,15 @@ public class GameScreen extends BaseScreen {
         update(delta);
         freeAllDestroyedActiveObjects();
         draw();
+        mainShip.autoShoot();
     }
 
     private void update(float delta){
         for (Star star : starArray) {
             star.update(delta);
         }
-        bulletPool.updateActiveSprites(delta);
         mainShip.update(delta);
+        bulletPool.updateActiveSprites(delta);
     }
 
     private void freeAllDestroyedActiveObjects(){
@@ -74,8 +75,8 @@ public class GameScreen extends BaseScreen {
         for (Star star : starArray) {
             star.draw(batch);
         }
-        bulletPool.drawActiveSprites(batch);
         mainShip.draw(batch);
+        bulletPool.drawActiveSprites(batch);
         batch.end();
     }
 
