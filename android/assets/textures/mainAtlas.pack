@@ -3,44 +3,51 @@ mainAtlas.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+explosion
+  rotate: false
+  xy: 1, 266
+  size: 971, 542
+  orig: 971, 542
+  offset: 0, 0
+  index: -1
 mainShip
   rotate: false
-  xy: 1, 141
+  xy: 1, 155
   size: 200, 109
   orig: 200, 109
   offset: 0, 0
   index: -1
 dogShip
   rotate: false
-  xy: 1, 39
+  xy: 1, 53
   size: 186, 100
   orig: 186, 100
   offset: 0, 0
   index: -1
 catShip
   rotate: false
-  xy: 203, 141
+  xy: 203, 155
   size: 160, 109
   orig: 160, 109
   offset: 0, 0
   index: -1
 laser
   rotate: false
-  xy: 365, 70
+  xy: 974, 628
   size: 36, 180
   orig: 36, 180
   offset: 0, 0
   index: -1
 star
   rotate: false
-  xy: 189, 89
+  xy: 1, 1
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 bulletMainShip
   rotate: false
-  xy: 1, 1
+  xy: 189, 117
   size: 36, 36
   orig: 36, 36
   offset: 0, 0
