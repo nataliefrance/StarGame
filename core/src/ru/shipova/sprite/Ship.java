@@ -16,6 +16,7 @@ public abstract class Ship extends Sprite {
     protected float bulletHeight;
     protected Sound bulletSound;
     protected int damage;
+    protected int healthPoint;
 
     protected Rect worldBounds;
 

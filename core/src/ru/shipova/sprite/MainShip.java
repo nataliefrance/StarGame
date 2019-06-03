@@ -30,7 +30,7 @@ public class MainShip extends Ship {
     private int leftPointer = INVALID_POINTER; //первый палец
     private int rightPointer = INVALID_POINTER; //второй палец
 
-    public MainShip(TextureAtlas atlas, BulletPool bulletPool, Sound bulletSound) {
+    public MainShip(TextureAtlas atlas, BulletPool bulletPool, Sound bulletSound, int healthPoint) {
         super(atlas.findRegion("dogShip"), 1, 2, 2);
         this.bulletPool = bulletPool;
         bulletRegion = atlas.findRegion("bulletMainShip");
