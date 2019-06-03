@@ -3,10 +3,8 @@ package ru.shipova.sprite;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-import ru.shipova.base.Sprite;
 import ru.shipova.math.Rect;
 import ru.shipova.pool.BulletPool;
 
@@ -18,45 +16,34 @@ import static com.badlogic.gdx.Input.Keys.RIGHT;
 import static com.badlogic.gdx.Input.Keys.UP;
 import static com.badlogic.gdx.Input.Keys.W;
 
-public class MainShip extends Sprite {
+public class MainShip extends Ship {
 
     private static final int INVALID_POINTER = -1;
-
-    private Vector2 v;
-    private final Vector2 v0;
-    private Vector2 bulletV;
-    private Vector2 bullet1Pos;
-    private Vector2 bullet2Pos;
 
     private boolean pressedLeft;
     private boolean pressedRight;
 
-    private boolean autoShoot;
-
-    private Rect worldBounds;
-    private Sound piuSound;
     private Sound moveSound;
 
-    private int autoShootCounter;
-
-    private BulletPool bulletPool;
-    private TextureRegion bulletRegion;
+//    private boolean autoShoot;
 
     private int leftPointer = INVALID_POINTER; //первый палец
     private int rightPointer = INVALID_POINTER; //второй палец
 
-
-    public MainShip(TextureAtlas atlas, BulletPool bulletPool) {
+    public MainShip(TextureAtlas atlas, BulletPool bulletPool, Sound bulletSound) {
         super(atlas.findRegion("dogShip"), 1, 2, 2);
         this.bulletPool = bulletPool;
-        this.bulletRegion = atlas.findRegion("bulletMainShip");
+        bulletRegion = atlas.findRegion("bulletMainShip");
         v = new Vector2();
         v0 = new Vector2(0.5f, 0f);
         bulletV = new Vector2(0, 0.5f);
-        bullet1Pos = new Vector2();
-        bullet2Pos = new Vector2();
-        piuSound = Gdx.audio.newSound(Gdx.files.internal("audio/piu.mp3"));
+//        bullet1Pos = new Vector2();
+//        bullet2Pos = new Vector2();
         moveSound = Gdx.audio.newSound(Gdx.files.internal("audio/move.mp3"));
+        reloadInterval = 0.3f;
+        bulletHeight = 0.01f;
+        damage = 1;
+        this.bulletSound = bulletSound;
     }
 
     @Override
@@ -78,6 +65,13 @@ public class MainShip extends Sprite {
             setLeft(worldBounds.getLeft());
             stop();
         }
+//        if (autoShoot) {
+//            reloadTimer += delta;
+//            if (reloadTimer >= reloadInterval){
+//                reloadTimer = 0f;
+//                shoot();
+//            }
+//        }
     }
 
     public boolean keyDown(int keycode) {
@@ -92,13 +86,13 @@ public class MainShip extends Sprite {
                 pressedRight = true;
                 moveRight();
                 break;
-            case UP:
-            case W:
-                shoot();
-                break;
-            case Q:
-                autoShoot = !autoShoot;
-                break;
+//            case UP:
+//            case W:
+//                shoot();
+//                break;
+//            case Q:
+//                autoShoot = !autoShoot;
+//                break;
         }
         return false;
     }
@@ -123,19 +117,18 @@ public class MainShip extends Sprite {
         return false;
     }
 
-    private void moveRight() {
-        v.set(v0);
-        moveSound.play(1.0f);
-    }
-
-    private void moveLeft() {
-        v.set(v0).rotate(180);
-        moveSound.play(1.0f);
-    }
-
-    private void stop() {
-        v.setZero();
-    }
+//    private void shoot() {
+//        Bullet bullet1 = bulletPool.obtain();
+//        Bullet bullet2 = bulletPool.obtain();
+//        bullet1Pos.set(pos);
+//        bullet1Pos.x -= 0.03f;
+//        bullet1Pos.y += 0.03f;
+//        bullet2Pos.set(pos);
+//        bullet2Pos.x += 0.03f;
+//        bullet2Pos.y += 0.03f;
+//        bullet1.set(this, bulletRegion, bullet1Pos, bulletV, 0.01f, worldBounds, 1);
+//        bullet2.set(this, bulletRegion, bullet2Pos, bulletV, 0.01f, worldBounds, 1);
+//    }
 
     public boolean touchDown(Vector2 touch, int pointer) {
         if (touch.x < worldBounds.pos.x) {
@@ -170,27 +163,17 @@ public class MainShip extends Sprite {
         return false;
     }
 
-    private void shoot() {
-        Bullet bullet1 = bulletPool.obtain();
-        Bullet bullet2 = bulletPool.obtain();
-        bullet1Pos.set(pos);
-        bullet1Pos.x -= 0.03f;
-        bullet1Pos.y += 0.03f;
-        bullet2Pos.set(pos);
-        bullet2Pos.x += 0.03f;
-        bullet2Pos.y += 0.03f;
-        bullet1.set(this, bulletRegion, bullet1Pos, bulletV, 0.01f, worldBounds, 1);
-        bullet2.set(this, bulletRegion, bullet2Pos, bulletV, 0.01f, worldBounds, 1);
-        piuSound.play(1.0f);
+    private void moveRight() {
+        v.set(v0);
+        moveSound.play(1.0f);
     }
 
-    public void autoShoot() {
-        if (autoShoot) {
-            if (autoShootCounter % 60 == 0) {
-                shoot();
-                autoShootCounter = 0;
-            }
-            autoShootCounter++;
-        }
+    private void moveLeft() {
+        v.set(v0).rotate(180);
+        moveSound.play(1.0f);
+    }
+
+    private void stop() {
+        v.setZero();
     }
 }

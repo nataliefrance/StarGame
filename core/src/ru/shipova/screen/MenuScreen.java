@@ -51,7 +51,7 @@ public class MenuScreen extends BaseScreen {
         buttonStart = new ButtonStart(atlas, game);
         title = new Title(atlas);
         music = Gdx.audio.newMusic(Gdx.files.internal("audio/starwars.mp3"));
-        music.setVolume(1f);
+        music.setVolume(1);
         music.setLooping(true);
         music.play();
     }

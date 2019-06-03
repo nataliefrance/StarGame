@@ -2,6 +2,7 @@ package ru.shipova.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -25,6 +26,7 @@ public class GameScreen extends BaseScreen {
     private TextureAtlas atlas;
     private Star[] starArray;
     private Music music;
+    private Sound piuSound;
 
     private MainShip mainShip;
     private BulletPool bulletPool;
@@ -40,7 +42,8 @@ public class GameScreen extends BaseScreen {
             starArray[i] = new Star(atlas);
         }
         bulletPool = new BulletPool();
-        mainShip = new MainShip(atlas, bulletPool);
+        piuSound = Gdx.audio.newSound(Gdx.files.internal("audio/piu.mp3"));
+        mainShip = new MainShip(atlas, bulletPool, piuSound);
         music = Gdx.audio.newMusic(Gdx.files.internal("audio/gameMusic.mp3"));
         music.setVolume(0.2f);
         music.setLooping(true);
@@ -52,7 +55,6 @@ public class GameScreen extends BaseScreen {
         update(delta);
         freeAllDestroyedActiveObjects();
         draw();
-        mainShip.autoShoot();
     }
 
     private void update(float delta){
@@ -96,6 +98,7 @@ public class GameScreen extends BaseScreen {
         atlas.dispose();
         bulletPool.dispose();
         music.dispose();
+        piuSound.dispose();
         super.dispose();
     }
 
