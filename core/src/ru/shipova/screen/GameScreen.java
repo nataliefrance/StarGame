@@ -15,6 +15,7 @@ import ru.shipova.pool.BulletPool;
 import ru.shipova.pool.EnemyPool;
 import ru.shipova.pool.ExplosionPool;
 import ru.shipova.sprite.Background;
+import ru.shipova.sprite.EnemyShip;
 import ru.shipova.sprite.Explosion;
 import ru.shipova.sprite.MainShip;
 import ru.shipova.sprite.Star;
@@ -82,6 +83,14 @@ public class GameScreen extends BaseScreen {
         explosionPool.updateActiveSprites(delta);
         enemyPool.updateActiveSprites(delta);
         enemyGenerator.generate(delta);
+
+        for (EnemyShip enemyShip : enemyPool.getActiveObjects()){
+            if (!enemyShip.isOutside(mainShip)){
+                Explosion explosion = explosionPool.obtain();
+                explosion.set(0.2f, enemyShip.pos);
+                enemyShip.destroy();
+            }
+        }
     }
 
     private void freeAllDestroyedActiveObjects(){
@@ -143,8 +152,6 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer) {
-        Explosion explosion = explosionPool.obtain();
-        explosion.set(0.5f, touch);
         mainShip.touchDown(touch, pointer);
         return false;
     }

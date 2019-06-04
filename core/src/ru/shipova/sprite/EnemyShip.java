@@ -10,6 +10,7 @@ import ru.shipova.pool.BulletPool;
 public class EnemyShip extends Ship {
 
     private Vector2 vGoToScreen;
+    private Vector2 posMainShip;
 
     public EnemyShip(BulletPool bulletPool, Sound bulletSound, Rect worldBounds) {
         this.bulletPool = bulletPool;
