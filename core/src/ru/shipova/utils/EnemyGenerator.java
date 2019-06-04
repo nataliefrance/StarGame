@@ -44,6 +44,8 @@ public class EnemyGenerator {
     private final Vector2 enemyMediumV = new Vector2(0f, -0.03f);
     private final Vector2 enemyBigV = new Vector2(0f, -0.005f);
 
+    private final Vector2 vGoToScreen = new Vector2(0f, -0.2f);
+
     private TextureRegion bulletRegion;
     private EnemyPool enemyPool;
 
@@ -76,7 +78,8 @@ public class EnemyGenerator {
                         ENEMY_SMALL_BULLET_DAMAGE,
                         ENEMY_SMALL_RELOAD_INTERVAL,
                         ENEMY_SMALL_HEIGHT,
-                        ENEMY_SMALL_HEALTH_POINT);
+                        ENEMY_SMALL_HEALTH_POINT,
+                        vGoToScreen);
             } else if (type < 0.8f) {
                 enemyShip.set(
                         enemyMediumRegion,
@@ -87,7 +90,8 @@ public class EnemyGenerator {
                         ENEMY_MEDIUM_BULLET_DAMAGE,
                         ENEMY_MEDIUM_RELOAD_INTERVAL,
                         ENEMY_MEDIUM_HEIGHT,
-                        ENEMY_MEDIUM_HEALTH_POINT);
+                        ENEMY_MEDIUM_HEALTH_POINT,
+                        vGoToScreen);
             } else {
                 enemyShip.set(
                         enemyBigRegion,
@@ -98,7 +102,8 @@ public class EnemyGenerator {
                         ENEMY_BIG_BULLET_DAMAGE,
                         ENEMY_BIG_RELOAD_INTERVAL,
                         ENEMY_BIG_HEIGHT,
-                        ENEMY_BIG_HEALTH_POINT);
+                        ENEMY_BIG_HEALTH_POINT,
+                        vGoToScreen);
             }
 
             enemyShip.pos.x = Rnd.nextFloat(worldBounds.getLeft() + enemyShip.getHalfWidth(), worldBounds.getRight() - enemyShip.getHalfWidth());

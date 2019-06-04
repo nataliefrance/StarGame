@@ -9,6 +9,8 @@ import ru.shipova.pool.BulletPool;
 
 public class EnemyShip extends Ship {
 
+    private Vector2 vGoToScreen;
+
     public EnemyShip(BulletPool bulletPool, Sound bulletSound, Rect worldBounds) {
         this.bulletPool = bulletPool;
         this.bulletSound = bulletSound;
@@ -17,11 +19,15 @@ public class EnemyShip extends Ship {
         this.bulletV = new Vector2();
         this.worldBounds = worldBounds;
         this.reloadTimer = reloadInterval;
+        this.vGoToScreen = new Vector2();
     }
 
     @Override
     public void update(float delta) {
         super.update(delta);
+        if (getTop() > worldBounds.getTop()){
+            pos.mulAdd(vGoToScreen, delta);
+        } else pos.mulAdd(v, delta);
     }
 
     public void set(
@@ -33,7 +39,7 @@ public class EnemyShip extends Ship {
             int damage,
             float reloadInterval,
             float height,
-            int healthPoint){
+            int healthPoint, Vector2 vGoToScreen){
         this.regions = regions;
         this.v0.set(v0);
         this.bulletV.set(0, bulletV_Y);
@@ -44,5 +50,6 @@ public class EnemyShip extends Ship {
         this.reloadInterval = reloadInterval;
         setHeightProportion(height);
         this.healthPoint = healthPoint;
+        this.vGoToScreen.set(vGoToScreen);
     }
 }
