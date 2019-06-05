@@ -14,8 +14,9 @@ public class EnemyShip extends Ship {
 
     private State state;
     private Vector2 descentV = new Vector2(0, -0.15f);
+    private MainShip mainShip;
 
-    public EnemyShip(BulletPool bulletPool, ExplosionPool explosionPool, Sound bulletSound, Rect worldBounds) {
+    public EnemyShip(BulletPool bulletPool, ExplosionPool explosionPool, Sound bulletSound, Rect worldBounds, MainShip mainShip) {
         this.bulletPool = bulletPool;
         this.explosionPool = explosionPool;
         this.bulletSound = bulletSound;
@@ -24,6 +25,7 @@ public class EnemyShip extends Ship {
         this.bulletV = new Vector2();
         this.worldBounds = worldBounds;
         this.reloadTimer = reloadInterval;
+        this.mainShip = mainShip;
     }
 
     @Override
@@ -42,12 +44,12 @@ public class EnemyShip extends Ship {
                     reloadTimer = 0f;
                     shoot();
                 }
-                if (getBottom() < worldBounds.getBottom()) {
-                    destroy();
+                if (getTop() < worldBounds.getBottom()) {
+                    quietDestroy();
+                    mainShip.getDamage(damage);
                 }
                 break;
         }
-
     }
 
     public void set(

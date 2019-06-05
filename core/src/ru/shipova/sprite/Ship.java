@@ -74,6 +74,13 @@ public abstract class Ship extends Sprite {
         boom();
     }
 
+    public void quietDestroy(){
+        super.destroy();
+        Explosion explosion = explosionPool.obtain();
+        explosion.set(getHeight(), pos);
+        explosion.getExplosionSound().stop();
+    }
+
     public void getDamage(int damage){
         healthPoint -= damage;
         if (healthPoint <= 0){

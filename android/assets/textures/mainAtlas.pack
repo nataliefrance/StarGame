@@ -5,77 +5,91 @@ filter: Nearest,Nearest
 repeat: none
 explosion
   rotate: false
-  xy: 1, 472
-  size: 971, 542
-  orig: 971, 542
+  xy: 1, 91
+  size: 350, 387
+  orig: 350, 387
   offset: 0, 0
   index: -1
 enemy2
   rotate: false
-  xy: 1, 304
-  size: 300, 166
-  orig: 300, 166
+  xy: 353, 324
+  size: 324, 154
+  orig: 324, 154
+  offset: 0, 0
+  index: -1
+new_game
+  rotate: false
+  xy: 1, 1
+  size: 365, 88
+  orig: 365, 88
   offset: 0, 0
   index: -1
 enemy1
   rotate: false
-  xy: 1, 164
-  size: 300, 138
-  orig: 300, 138
+  xy: 679, 343
+  size: 300, 135
+  orig: 300, 135
   offset: 0, 0
   index: -1
-enemy0
+game_over
   rotate: false
-  xy: 303, 346
-  size: 300, 124
-  orig: 300, 124
+  xy: 353, 235
+  size: 360, 87
+  orig: 360, 87
   offset: 0, 0
   index: -1
 mainShip
   rotate: false
-  xy: 1, 53
+  xy: 353, 124
   size: 200, 109
   orig: 200, 109
   offset: 0, 0
   index: -1
-dogShip
+enemy0
   rotate: false
-  xy: 303, 244
-  size: 186, 100
-  orig: 186, 100
+  xy: 715, 248
+  size: 204, 93
+  orig: 204, 93
   offset: 0, 0
   index: -1
 catShip
   rotate: false
-  xy: 605, 361
+  xy: 555, 124
   size: 160, 109
   orig: 160, 109
   offset: 0, 0
   index: -1
+dogShip
+  rotate: false
+  xy: 717, 146
+  size: 186, 100
+  orig: 186, 100
+  offset: 0, 0
+  index: -1
 laser
   rotate: false
-  xy: 974, 834
+  xy: 981, 298
   size: 36, 180
   orig: 36, 180
   offset: 0, 0
   index: -1
 star
   rotate: false
-  xy: 1, 1
+  xy: 921, 291
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 enemyBullet
   rotate: false
-  xy: 203, 126
+  xy: 921, 253
   size: 36, 36
   orig: 36, 36
   offset: 0, 0
   index: -1
 bulletMainShip
   rotate: false
-  xy: 303, 209
+  xy: 717, 111
   size: 32, 33
   orig: 32, 33
   offset: 0, 0

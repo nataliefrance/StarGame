@@ -14,7 +14,7 @@ public class Explosion extends Sprite {
     private Sound explosionSound;
 
     public Explosion(TextureAtlas atlas, Sound explosionSound) {
-        super(atlas.findRegion("explosion"), 2, 4, 8);
+        super(atlas.findRegion("explosion"), 4, 4, 16);
         this.explosionSound = explosionSound;
     }
 
@@ -40,5 +40,9 @@ public class Explosion extends Sprite {
     public void destroy() {
         super.destroy();
         frame = 0;
+    }
+
+    public Sound getExplosionSound() {
+        return explosionSound;
     }
 }
