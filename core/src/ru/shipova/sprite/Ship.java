@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import ru.shipova.base.Sprite;
 import ru.shipova.math.Rect;
 import ru.shipova.pool.BulletPool;
+import ru.shipova.pool.ExplosionPool;
 
 public abstract class Ship extends Sprite {
 
@@ -25,6 +26,8 @@ public abstract class Ship extends Sprite {
 
     protected float reloadInterval;
     protected float reloadTimer;
+
+    protected ExplosionPool explosionPool;
 
     public Ship(TextureRegion region, int rows, int cols, int frames) {
         super(region, rows, cols, frames);
@@ -55,5 +58,16 @@ public abstract class Ship extends Sprite {
         Bullet bullet1 = bulletPool.obtain();
         bullet1.set(this, bulletRegion, pos, bulletV, bulletHeight, worldBounds, damage);
         bulletSound.play(1.0f);
+    }
+
+    private void boom(){
+        Explosion explosion = explosionPool.obtain();
+        explosion.set(getHeight(), pos);
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        boom();
     }
 }

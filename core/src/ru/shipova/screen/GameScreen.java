@@ -58,9 +58,9 @@ public class GameScreen extends BaseScreen {
         explosionSound = Gdx.audio.newSound(Gdx.files.internal("audio/explosion.mp3"));
         explosionPool = new ExplosionPool(atlas, explosionSound);
         piuSound = Gdx.audio.newSound(Gdx.files.internal("audio/piu.mp3"));
-        mainShip = new MainShip(atlas, bulletPool, piuSound, MAINSHIP_HEALTH);
+        mainShip = new MainShip(atlas, bulletPool, explosionPool, piuSound, MAINSHIP_HEALTH);
         enemyBulletSound = Gdx.audio.newSound(Gdx.files.internal("audio/enemyBulletSound.mp3"));
-        enemyPool = new EnemyPool(bulletPool, enemyBulletSound, worldBounds);
+        enemyPool = new EnemyPool(bulletPool, explosionPool, enemyBulletSound, worldBounds);
         enemyGenerator = new EnemyGenerator(worldBounds, enemyPool, atlas);
         music = Gdx.audio.newMusic(Gdx.files.internal("audio/gameMusic.mp3"));
         music.setVolume(0.2f);
@@ -88,9 +88,12 @@ public class GameScreen extends BaseScreen {
     }
 
     private void checkCollisions() {
+        if (mainShip.isDestroyed()){
+            return;
+        }
         List<EnemyShip> enemyList = enemyPool.getActiveObjects();
         for (EnemyShip enemyShip : enemyList){
-            if (!enemyShip.isDestroyed()){
+            if (enemyShip.isDestroyed()){
                 continue;
             }
             float minDistance = enemyShip.getHalfWidth() + mainShip.getHalfWidth();

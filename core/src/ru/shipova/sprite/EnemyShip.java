@@ -6,11 +6,13 @@ import com.badlogic.gdx.math.Vector2;
 
 import ru.shipova.math.Rect;
 import ru.shipova.pool.BulletPool;
+import ru.shipova.pool.ExplosionPool;
 
 public class EnemyShip extends Ship {
 
-    public EnemyShip(BulletPool bulletPool, Sound bulletSound, Rect worldBounds) {
+    public EnemyShip(BulletPool bulletPool, ExplosionPool explosionPool, Sound bulletSound, Rect worldBounds) {
         this.bulletPool = bulletPool;
+        this.explosionPool = explosionPool;
         this.bulletSound = bulletSound;
         this.v = new Vector2();
         this.v0 = new Vector2();
@@ -22,6 +24,9 @@ public class EnemyShip extends Ship {
     @Override
     public void update(float delta) {
         super.update(delta);
+        if (getBottom() < worldBounds.getBottom()){
+            destroy();
+        }
     }
 
     public void set(

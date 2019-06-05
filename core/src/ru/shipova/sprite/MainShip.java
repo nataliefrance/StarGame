@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import ru.shipova.math.Rect;
 import ru.shipova.pool.BulletPool;
+import ru.shipova.pool.ExplosionPool;
 
 import static com.badlogic.gdx.Input.Keys.A;
 import static com.badlogic.gdx.Input.Keys.D;
@@ -30,19 +31,20 @@ public class MainShip extends Ship {
     private int leftPointer = INVALID_POINTER; //первый палец
     private int rightPointer = INVALID_POINTER; //второй палец
 
-    public MainShip(TextureAtlas atlas, BulletPool bulletPool, Sound bulletSound, int healthPoint) {
+    public MainShip(TextureAtlas atlas, BulletPool bulletPool, ExplosionPool explosionPool, Sound bulletSound, int healthPoint) {
         super(atlas.findRegion("dogShip"), 1, 2, 2);
         this.bulletPool = bulletPool;
-        bulletRegion = atlas.findRegion("bulletMainShip");
-        v = new Vector2();
-        v0 = new Vector2(0.5f, 0f);
-        bulletV = new Vector2(0, 0.5f);
+        this.explosionPool = explosionPool;
+        this.bulletRegion = atlas.findRegion("bulletMainShip");
+        this.v = new Vector2();
+        this.v0 = new Vector2(0.5f, 0f);
+        this.bulletV = new Vector2(0, 0.5f);
 //        bullet1Pos = new Vector2();
 //        bullet2Pos = new Vector2();
-        moveSound = Gdx.audio.newSound(Gdx.files.internal("audio/move.mp3"));
-        reloadInterval = 0.3f;
-        bulletHeight = 0.01f;
-        damage = 1;
+        this.moveSound = Gdx.audio.newSound(Gdx.files.internal("audio/move.mp3"));
+        this.reloadInterval = 0.3f;
+        this.bulletHeight = 0.01f;
+        this.damage = 1;
         this.bulletSound = bulletSound;
     }
 
