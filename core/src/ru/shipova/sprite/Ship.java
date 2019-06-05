@@ -21,13 +21,16 @@ public abstract class Ship extends Sprite {
 
     protected Rect worldBounds;
 
+    protected ExplosionPool explosionPool;
     protected BulletPool bulletPool;
     protected TextureRegion bulletRegion;
 
     protected float reloadInterval;
     protected float reloadTimer;
 
-    protected ExplosionPool explosionPool;
+    protected float damageAnimateInterval = 0.1f;
+    protected float damageAnimateTimer = damageAnimateInterval;
+
 
     public Ship(TextureRegion region, int rows, int cols, int frames) {
         super(region, rows, cols, frames);
@@ -47,6 +50,11 @@ public abstract class Ship extends Sprite {
     public void update(float delta) {
         super.update(delta);
         pos.mulAdd(v, delta);
+
+        damageAnimateTimer += delta;
+        if (damageAnimateTimer >= damageAnimateInterval){
+            frame = 0;
+        }
     }
 
     protected void shoot() {
@@ -64,5 +72,14 @@ public abstract class Ship extends Sprite {
     public void destroy() {
         super.destroy();
         boom();
+    }
+
+    public void getDamage(int damage){
+        healthPoint -= damage;
+        if (healthPoint <= 0){
+            destroy();
+        }
+        frame = 1;
+        damageAnimateTimer = 0f;
     }
 }

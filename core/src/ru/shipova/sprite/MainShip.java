@@ -46,6 +46,7 @@ public class MainShip extends Ship {
         this.bulletHeight = 0.01f;
         this.damage = 1;
         this.bulletSound = bulletSound;
+        this.healthPoint = healthPoint;
     }
 
     @Override
@@ -168,6 +169,15 @@ public class MainShip extends Ship {
             } else stop();
         }
         return false;
+    }
+
+    public boolean isBulletCollision(Rect bullet) {
+        return !(
+                bullet.getRight() < getLeft()
+                        || bullet.getLeft() > getRight()
+                        || bullet.getBottom() > pos.y
+                        || bullet.getTop() < getBottom()
+        );
     }
 
     private void moveRight() {

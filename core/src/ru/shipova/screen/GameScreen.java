@@ -17,6 +17,7 @@ import ru.shipova.pool.BulletPool;
 import ru.shipova.pool.EnemyPool;
 import ru.shipova.pool.ExplosionPool;
 import ru.shipova.sprite.Background;
+import ru.shipova.sprite.Bullet;
 import ru.shipova.sprite.EnemyShip;
 import ru.shipova.sprite.MainShip;
 import ru.shipova.sprite.Star;
@@ -42,7 +43,7 @@ public class GameScreen extends BaseScreen {
     private EnemyPool enemyPool;
     private EnemyGenerator enemyGenerator;
 
-    private static final int MAINSHIP_HEALTH = 10;
+    private static final int MAINSHIP_HEALTH = 100;
 
     @Override
     public void show() {
@@ -80,7 +81,9 @@ public class GameScreen extends BaseScreen {
         for (Star star : starArray) {
             star.update(delta);
         }
-        mainShip.update(delta);
+        if (!mainShip.isDestroyed()) {
+            mainShip.update(delta);
+        }
         bulletPool.updateActiveSprites(delta);
         explosionPool.updateActiveSprites(delta);
         enemyPool.updateActiveSprites(delta);
@@ -88,19 +91,42 @@ public class GameScreen extends BaseScreen {
     }
 
     private void checkCollisions() {
-        if (mainShip.isDestroyed()){
+        if (mainShip.isDestroyed()) {
             return;
         }
+
         List<EnemyShip> enemyList = enemyPool.getActiveObjects();
-        for (EnemyShip enemyShip : enemyList){
-            if (enemyShip.isDestroyed()){
+        List<Bullet> bulletList = bulletPool.getActiveObjects();
+
+        for (EnemyShip enemyShip : enemyList) {
+            if (enemyShip.isDestroyed()) {
                 continue;
             }
             float minDistance = enemyShip.getHalfWidth() + mainShip.getHalfWidth();
             //dst рассчитывает дистанцию между векторами
-            if (enemyShip.pos.dst(mainShip.pos) < minDistance){
+            if (enemyShip.pos.dst(mainShip.pos) < minDistance) {
                 enemyShip.destroy();
                 mainShip.destroy();
+            }
+
+            for (Bullet bullet : bulletList) {
+                if (bullet.getOwner() != mainShip || bullet.isDestroyed()) {
+                    continue;
+                }
+                if (enemyShip.isBulletCollision(bullet)) {
+                    enemyShip.getDamage(bullet.getDamage());
+                    bullet.destroy();
+                }
+            }
+
+            for (Bullet bullet : bulletList) {
+                if (bullet.getOwner() == mainShip || bullet.isDestroyed()) {
+                    continue;
+                }
+                if (mainShip.isBulletCollision(bullet)) {
+                    mainShip.getDamage(bullet.getDamage());
+                    bullet.destroy();
+                }
             }
         }
     }
@@ -119,7 +145,7 @@ public class GameScreen extends BaseScreen {
         for (Star star : starArray) {
             star.draw(batch);
         }
-        if (!mainShip.isDestroyed()){
+        if (!mainShip.isDestroyed()) {
             mainShip.draw(batch);
         }
         bulletPool.drawActiveSprites(batch);
