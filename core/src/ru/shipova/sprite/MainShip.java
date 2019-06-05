@@ -67,6 +67,11 @@ public class MainShip extends Ship {
             setLeft(worldBounds.getLeft());
             stop();
         }
+        reloadTimer += delta;
+        if (reloadTimer >= reloadInterval){
+            reloadTimer = 0f;
+            shoot();
+        }
 //        if (autoShoot) {
 //            reloadTimer += delta;
 //            if (reloadTimer >= reloadInterval){

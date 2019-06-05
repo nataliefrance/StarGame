@@ -47,14 +47,9 @@ public abstract class Ship extends Sprite {
     public void update(float delta) {
         super.update(delta);
         pos.mulAdd(v, delta);
-        reloadTimer += delta;
-        if (reloadTimer >= reloadInterval){
-            reloadTimer = 0f;
-            shoot();
-        }
     }
 
-    private void shoot() {
+    protected void shoot() {
         Bullet bullet1 = bulletPool.obtain();
         bullet1.set(this, bulletRegion, pos, bulletV, bulletHeight, worldBounds, damage);
         bulletSound.play(1.0f);
