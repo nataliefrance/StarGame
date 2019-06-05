@@ -9,12 +9,15 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.List;
+
 import ru.shipova.base.BaseScreen;
 import ru.shipova.math.Rect;
 import ru.shipova.pool.BulletPool;
 import ru.shipova.pool.EnemyPool;
 import ru.shipova.pool.ExplosionPool;
 import ru.shipova.sprite.Background;
+import ru.shipova.sprite.EnemyShip;
 import ru.shipova.sprite.MainShip;
 import ru.shipova.sprite.Star;
 import ru.shipova.utils.EnemyGenerator;
@@ -68,11 +71,12 @@ public class GameScreen extends BaseScreen {
     @Override
     public void render(float delta) {
         update(delta);
+        checkCollisions();
         freeAllDestroyedActiveObjects();
         draw();
     }
 
-    private void update(float delta){
+    private void update(float delta) {
         for (Star star : starArray) {
             star.update(delta);
         }
@@ -83,13 +87,28 @@ public class GameScreen extends BaseScreen {
         enemyGenerator.generate(delta);
     }
 
-    private void freeAllDestroyedActiveObjects(){
+    private void checkCollisions() {
+        List<EnemyShip> enemyList = enemyPool.getActiveObjects();
+        for (EnemyShip enemyShip : enemyList){
+            if (!enemyShip.isDestroyed()){
+                continue;
+            }
+            float minDistance = enemyShip.getHalfWidth() + mainShip.getHalfWidth();
+            //dst рассчитывает дистанцию между векторами
+            if (enemyShip.pos.dst(mainShip.pos) < minDistance){
+                enemyShip.destroy();
+                mainShip.destroy();
+            }
+        }
+    }
+
+    private void freeAllDestroyedActiveObjects() {
         bulletPool.freeAllDestroyedActiveSprites();
         explosionPool.freeAllDestroyedActiveSprites();
         enemyPool.freeAllDestroyedActiveSprites();
     }
 
-    private void draw(){
+    private void draw() {
         Gdx.gl.glClearColor(0.4f, 0.3f, 0.9f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
@@ -97,7 +116,9 @@ public class GameScreen extends BaseScreen {
         for (Star star : starArray) {
             star.draw(batch);
         }
-        mainShip.draw(batch);
+        if (!mainShip.isDestroyed()){
+            mainShip.draw(batch);
+        }
         bulletPool.drawActiveSprites(batch);
         explosionPool.drawActiveSprites(batch);
         enemyPool.drawActiveSprites(batch);
