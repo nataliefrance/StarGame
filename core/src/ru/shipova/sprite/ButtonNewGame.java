@@ -7,14 +7,14 @@ import ru.shipova.base.ScaledTouchUpButton;
 import ru.shipova.math.Rect;
 import ru.shipova.screen.GameScreen;
 
-public class ButtonStart extends ScaledTouchUpButton {
+public class ButtonNewGame extends ScaledTouchUpButton {
 
     private Game game;
 
-    public ButtonStart(TextureAtlas atlas, Game game) {
-        super(atlas.findRegion("start"));
+    public ButtonNewGame(TextureAtlas atlas, Game game) {
+        super(atlas.findRegion("new_game"));
         this.game = game;
-        setHeightProportion(0.15f);
+
     }
 
     @Override
@@ -24,6 +24,7 @@ public class ButtonStart extends ScaledTouchUpButton {
 
     @Override
     public void resize(Rect worldBounds) {
-        setBottom(worldBounds.getBottom() + 0.4f);
+        setHeightProportion(0.12f);
+        setBottom(worldBounds.getBottom() + 0.3f);
     }
 }
