@@ -180,7 +180,7 @@ public class MainShip extends Ship {
         return !(
                 bullet.getRight() < getLeft()
                         || bullet.getLeft() > getRight()
-                        || bullet.getBottom() > pos.y
+                        || bullet.getBottom() > getTop()
                         || bullet.getTop() < getBottom()
         );
     }

@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.List;
 
 import ru.shipova.base.BaseScreen;
+import ru.shipova.base.Font;
 import ru.shipova.math.Rect;
 import ru.shipova.pool.BulletPool;
 import ru.shipova.pool.EnemyPool;
@@ -29,6 +30,9 @@ import ru.shipova.utils.EnemyGenerator;
 public class GameScreen extends BaseScreen {
 
     private static final int STAR_COUNT = 64;
+    private static final String FRAGS = "Frags: ";
+    private static final String HP = "HP: ";
+    private static final String LEVEL = "Level: ";
 
     private enum State {PLAYING, PAUSE, GAME_OVER}
 
@@ -51,7 +55,9 @@ public class GameScreen extends BaseScreen {
     private MessageGameOver messageGameOver;
     private ButtonNewGame buttonNewGame;
 
-
+    private int frags; //количество убитых врагов
+    private Font font;
+    private StringBuilder sbFrags;
 
     @Override
     public void show() {
@@ -59,6 +65,8 @@ public class GameScreen extends BaseScreen {
         bg = new Texture("textures/background.png");
         background = new Background(new TextureRegion(bg));
         atlas = new TextureAtlas("textures/mainAtlas.pack");
+        font = new Font("font/font.fnt", "font/font.png");
+        font.setSize(0.03f); //2% от высоты экрана
         starArray = new Star[STAR_COUNT];
         for (int i = 0; i < STAR_COUNT; i++) {
             starArray[i] = new Star(atlas);
@@ -71,6 +79,8 @@ public class GameScreen extends BaseScreen {
         enemyBulletSound = Gdx.audio.newSound(Gdx.files.internal("audio/enemyPiu.mp3"));
         enemyPool = new EnemyPool(bulletPool, explosionPool, enemyBulletSound, worldBounds, mainShip);
         enemyGenerator = new EnemyGenerator(worldBounds, enemyPool, atlas);
+        frags = 0;
+        sbFrags = new StringBuilder();
         music = Gdx.audio.newMusic(Gdx.files.internal("audio/gameMusic.mp3"));
         music.setVolume(0.2f);
         music.setLooping(true);
@@ -129,6 +139,9 @@ public class GameScreen extends BaseScreen {
                 }
                 if (enemyShip.isBulletCollision(bullet)) {
                     enemyShip.getDamage(bullet.getDamage());
+                    if (enemyShip.isDestroyed()){
+                        frags++;
+                    }
                     bullet.destroy();
                 }
             }
@@ -172,6 +185,7 @@ public class GameScreen extends BaseScreen {
             messageGameOver.draw(batch);
             buttonNewGame.draw(batch);
         }
+        printInfo();
         batch.end();
     }
 
@@ -198,6 +212,7 @@ public class GameScreen extends BaseScreen {
         piuSound.dispose();
         explosionSound.dispose();
         enemyBulletSound.dispose();
+        font.dispose();
         super.dispose();
     }
 
@@ -260,9 +275,18 @@ public class GameScreen extends BaseScreen {
     public void startNewGame(){
         state = State.PLAYING;
 
+        frags = 0;
+
         mainShip.startNewGame();
         bulletPool.freeAllActiveObjects();
         explosionPool.freeAllActiveObjects();
         enemyPool.freeAllActiveObjects();
+    }
+
+    private void printInfo(){
+
+        sbFrags.setLength(0);
+        font.draw(batch, sbFrags.append(FRAGS).append(frags), worldBounds.getLeft(), worldBounds.getTop());
+
     }
 }
