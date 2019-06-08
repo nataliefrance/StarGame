@@ -18,6 +18,7 @@ import ru.shipova.pool.EnemyPool;
 import ru.shipova.pool.ExplosionPool;
 import ru.shipova.sprite.Background;
 import ru.shipova.sprite.Bullet;
+import ru.shipova.sprite.ButtonNewGame;
 import ru.shipova.sprite.EnemyShip;
 import ru.shipova.sprite.MainShip;
 import ru.shipova.sprite.MessageGameOver;
@@ -48,8 +49,9 @@ public class GameScreen extends BaseScreen {
     private State state;
 
     private MessageGameOver messageGameOver;
+    private ButtonNewGame buttonNewGame;
 
-    private static final int MAIN_SHIP_HEALTH = 100;
+
 
     @Override
     public void show() {
@@ -65,7 +67,7 @@ public class GameScreen extends BaseScreen {
         explosionSound = Gdx.audio.newSound(Gdx.files.internal("audio/explosion.mp3"));
         explosionPool = new ExplosionPool(atlas, explosionSound);
         piuSound = Gdx.audio.newSound(Gdx.files.internal("audio/piu.mp3"));
-        mainShip = new MainShip(atlas, bulletPool, explosionPool, piuSound, MAIN_SHIP_HEALTH);
+        mainShip = new MainShip(atlas, bulletPool, explosionPool, piuSound);
         enemyBulletSound = Gdx.audio.newSound(Gdx.files.internal("audio/enemyPiu.mp3"));
         enemyPool = new EnemyPool(bulletPool, explosionPool, enemyBulletSound, worldBounds, mainShip);
         enemyGenerator = new EnemyGenerator(worldBounds, enemyPool, atlas);
@@ -73,8 +75,9 @@ public class GameScreen extends BaseScreen {
         music.setVolume(0.2f);
         music.setLooping(true);
         music.play();
-        state = State.PLAYING;
         messageGameOver = new MessageGameOver(atlas);
+        buttonNewGame = new ButtonNewGame(atlas, this);
+        state = State.PLAYING;
     }
 
     @Override
@@ -167,6 +170,7 @@ public class GameScreen extends BaseScreen {
             enemyPool.drawActiveSprites(batch);
         } else if (state == State.GAME_OVER) {
             messageGameOver.draw(batch);
+            buttonNewGame.draw(batch);
         }
         batch.end();
     }
@@ -179,6 +183,8 @@ public class GameScreen extends BaseScreen {
             star.resize(worldBounds);
         }
         mainShip.resize(worldBounds);
+        messageGameOver.resize(worldBounds);
+        buttonNewGame.resize(worldBounds);
     }
 
     @Override
@@ -215,6 +221,8 @@ public class GameScreen extends BaseScreen {
     public boolean touchDown(Vector2 touch, int pointer) {
         if (state == State.PLAYING) {
             mainShip.touchDown(touch, pointer);
+        } else if (state == State.GAME_OVER){
+            buttonNewGame.touchDown(touch, pointer);
         }
         return false;
     }
@@ -223,6 +231,8 @@ public class GameScreen extends BaseScreen {
     public boolean touchUp(Vector2 touch, int pointer) {
         if (state == State.PLAYING) {
             mainShip.touchUp(touch, pointer);
+        } else if (state == State.GAME_OVER){
+            buttonNewGame.touchUp(touch, pointer);
         }
         return false;
     }
@@ -245,5 +255,14 @@ public class GameScreen extends BaseScreen {
         }
         state = State.PLAYING;
         music.play();
+    }
+
+    public void startNewGame(){
+        state = State.PLAYING;
+
+        mainShip.startNewGame();
+        bulletPool.freeAllActiveObjects();
+        explosionPool.freeAllActiveObjects();
+        enemyPool.freeAllActiveObjects();
     }
 }

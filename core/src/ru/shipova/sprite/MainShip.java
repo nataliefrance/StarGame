@@ -12,14 +12,12 @@ import ru.shipova.pool.ExplosionPool;
 import static com.badlogic.gdx.Input.Keys.A;
 import static com.badlogic.gdx.Input.Keys.D;
 import static com.badlogic.gdx.Input.Keys.LEFT;
-import static com.badlogic.gdx.Input.Keys.Q;
 import static com.badlogic.gdx.Input.Keys.RIGHT;
-import static com.badlogic.gdx.Input.Keys.UP;
-import static com.badlogic.gdx.Input.Keys.W;
 
 public class MainShip extends Ship {
 
     private static final int INVALID_POINTER = -1;
+    private static final int HEALTH_POINT = 100;
 
     private boolean pressedLeft;
     private boolean pressedRight;
@@ -31,7 +29,7 @@ public class MainShip extends Ship {
     private int leftPointer = INVALID_POINTER; //первый палец
     private int rightPointer = INVALID_POINTER; //второй палец
 
-    public MainShip(TextureAtlas atlas, BulletPool bulletPool, ExplosionPool explosionPool, Sound bulletSound, int healthPoint) {
+    public MainShip(TextureAtlas atlas, BulletPool bulletPool, ExplosionPool explosionPool, Sound bulletSound) {
         super(atlas.findRegion("dogShip"), 1, 2, 2);
         this.bulletPool = bulletPool;
         this.explosionPool = explosionPool;
@@ -46,7 +44,7 @@ public class MainShip extends Ship {
         this.bulletHeight = 0.01f;
         this.damage = 1;
         this.bulletSound = bulletSound;
-        this.healthPoint = healthPoint;
+        this.healthPoint = HEALTH_POINT;
     }
 
     @Override
@@ -69,7 +67,7 @@ public class MainShip extends Ship {
             stop();
         }
         reloadTimer += delta;
-        if (reloadTimer >= reloadInterval){
+        if (reloadTimer >= reloadInterval) {
             reloadTimer = 0f;
             shoot();
         }
@@ -80,6 +78,13 @@ public class MainShip extends Ship {
 //                shoot();
 //            }
 //        }
+    }
+
+    public void startNewGame() {
+        this.healthPoint = HEALTH_POINT;
+        this.pos.x = worldBounds.pos.x;
+        this.v.set(0, 0);
+        flushDestroy();
     }
 
     public boolean keyDown(int keycode) {
