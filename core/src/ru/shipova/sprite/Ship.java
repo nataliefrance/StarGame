@@ -51,8 +51,8 @@ public abstract class Ship extends Sprite {
         super.update(delta);
         pos.mulAdd(v, delta);
 
-        damageAnimateTimer += delta;
-        if (damageAnimateTimer >= damageAnimateInterval){
+        damageAnimateTimer += delta / 2;
+        if (damageAnimateTimer >= damageAnimateInterval) {
             frame = 0;
         }
     }
@@ -63,7 +63,7 @@ public abstract class Ship extends Sprite {
         bulletSound.play(1.0f);
     }
 
-    private void boom(){
+    private void boom() {
         Explosion explosion = explosionPool.obtain();
         explosion.set(getHeight(), pos);
     }
@@ -74,19 +74,24 @@ public abstract class Ship extends Sprite {
         boom();
     }
 
-    public void quietDestroy(){
+    void quietDestroy() {
         super.destroy();
         Explosion explosion = explosionPool.obtain();
         explosion.set(getHeight(), pos);
         explosion.getExplosionSound().stop();
     }
 
-    public void getDamage(int damage){
+    public void getDamage(int damage) {
         healthPoint -= damage;
-        if (healthPoint <= 0){
+        if (healthPoint <= 0) {
+            healthPoint = 0;
             destroy();
         }
         frame = 1;
         damageAnimateTimer = 0f;
+    }
+
+    public int getHealthPoint() {
+        return healthPoint;
     }
 }

@@ -14,6 +14,6 @@ public class MessageGameOver extends Sprite {
     public void resize(Rect worldBounds) {
         setHeightProportion(0.16f);
         setHeight(0.2f);
-        setBottom(0.009f);
+        setBottom(0.01f);
     }
 }

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Align;
 
 import java.util.List;
 
@@ -30,9 +31,10 @@ import ru.shipova.utils.EnemyGenerator;
 public class GameScreen extends BaseScreen {
 
     private static final int STAR_COUNT = 64;
-    private static final String FRAGS = "Frags: ";
-    private static final String HP = "HP: ";
+    private static final String SCORE = "Score: ";
+    private static final String HEALTH_POINT = "HP: ";
     private static final String LEVEL = "Level: ";
+    private static final int SCORE_FOR_NEW_LEVEL = 10;
 
     private enum State {PLAYING, PAUSE, GAME_OVER}
 
@@ -55,9 +57,18 @@ public class GameScreen extends BaseScreen {
     private MessageGameOver messageGameOver;
     private ButtonNewGame buttonNewGame;
 
-    private int frags; //количество убитых врагов
+    private int score;
+    private int level;
+
     private Font font;
-    private StringBuilder sbFrags;
+//    private Font fontForPrintLevel;
+    private StringBuilder sbScore;
+    private StringBuilder sbHealthPoint;
+    private StringBuilder sbLevel;
+//    private StringBuilder sbShowLevel;
+
+//    private int timer;
+//    private boolean printNewLevel;
 
     @Override
     public void show() {
@@ -66,7 +77,9 @@ public class GameScreen extends BaseScreen {
         background = new Background(new TextureRegion(bg));
         atlas = new TextureAtlas("textures/mainAtlas.pack");
         font = new Font("font/font.fnt", "font/font.png");
-        font.setSize(0.03f); //2% от высоты экрана
+        font.setSize(0.03f); //3% от высоты экрана
+//        fontForPrintLevel = new Font("font/font.fnt", "font/font.png");
+//        fontForPrintLevel.setSize(0.5f); //3% от высоты экрана
         starArray = new Star[STAR_COUNT];
         for (int i = 0; i < STAR_COUNT; i++) {
             starArray[i] = new Star(atlas);
@@ -79,8 +92,12 @@ public class GameScreen extends BaseScreen {
         enemyBulletSound = Gdx.audio.newSound(Gdx.files.internal("audio/enemyPiu.mp3"));
         enemyPool = new EnemyPool(bulletPool, explosionPool, enemyBulletSound, worldBounds, mainShip);
         enemyGenerator = new EnemyGenerator(worldBounds, enemyPool, atlas);
-        frags = 0;
-        sbFrags = new StringBuilder();
+        score = 0;
+        level = 1;
+        sbScore = new StringBuilder();
+        sbHealthPoint = new StringBuilder();
+        sbLevel = new StringBuilder();
+//        sbShowLevel = new StringBuilder();
         music = Gdx.audio.newMusic(Gdx.files.internal("audio/gameMusic.mp3"));
         music.setVolume(0.2f);
         music.setLooping(true);
@@ -109,7 +126,7 @@ public class GameScreen extends BaseScreen {
             mainShip.update(delta);
             bulletPool.updateActiveSprites(delta);
             enemyPool.updateActiveSprites(delta);
-            enemyGenerator.generate(delta);
+            enemyGenerator.generate(delta, level);
         }
     }
 
@@ -129,7 +146,7 @@ public class GameScreen extends BaseScreen {
             //dst рассчитывает дистанцию между векторами
             if (enemyShip.pos.dst(mainShip.pos) < minDistance) {
                 enemyShip.destroy();
-                mainShip.destroy();
+                mainShip.getDamage(mainShip.getHealthPoint());
                 state = State.GAME_OVER;
             }
 
@@ -139,8 +156,8 @@ public class GameScreen extends BaseScreen {
                 }
                 if (enemyShip.isBulletCollision(bullet)) {
                     enemyShip.getDamage(bullet.getDamage());
-                    if (enemyShip.isDestroyed()){
-                        frags++;
+                    if (enemyShip.isDestroyed()) {
+                        score += enemyShip.getScore();
                     }
                     bullet.destroy();
                 }
@@ -177,10 +194,17 @@ public class GameScreen extends BaseScreen {
         }
 
         explosionPool.drawActiveSprites(batch);
+
         if (state == State.PLAYING) {
             mainShip.draw(batch);
             bulletPool.drawActiveSprites(batch);
             enemyPool.drawActiveSprites(batch);
+
+            int levelUpdate = score / SCORE_FOR_NEW_LEVEL;
+
+            if (levelUpdate > level - 1) {
+                level += 1;
+            }
         } else if (state == State.GAME_OVER) {
             messageGameOver.draw(batch);
             buttonNewGame.draw(batch);
@@ -236,7 +260,7 @@ public class GameScreen extends BaseScreen {
     public boolean touchDown(Vector2 touch, int pointer) {
         if (state == State.PLAYING) {
             mainShip.touchDown(touch, pointer);
-        } else if (state == State.GAME_OVER){
+        } else if (state == State.GAME_OVER) {
             buttonNewGame.touchDown(touch, pointer);
         }
         return false;
@@ -246,7 +270,7 @@ public class GameScreen extends BaseScreen {
     public boolean touchUp(Vector2 touch, int pointer) {
         if (state == State.PLAYING) {
             mainShip.touchUp(touch, pointer);
-        } else if (state == State.GAME_OVER){
+        } else if (state == State.GAME_OVER) {
             buttonNewGame.touchUp(touch, pointer);
         }
         return false;
@@ -272,10 +296,10 @@ public class GameScreen extends BaseScreen {
         music.play();
     }
 
-    public void startNewGame(){
+    public void startNewGame() {
         state = State.PLAYING;
 
-        frags = 0;
+        score = 0;
 
         mainShip.startNewGame();
         bulletPool.freeAllActiveObjects();
@@ -283,10 +307,19 @@ public class GameScreen extends BaseScreen {
         enemyPool.freeAllActiveObjects();
     }
 
-    private void printInfo(){
+    private void printInfo() {
+        sbScore.setLength(0);
+        font.draw(batch, sbScore.append(SCORE).append(score), worldBounds.getLeft(), worldBounds.getTop() - 0.01f);
 
-        sbFrags.setLength(0);
-        font.draw(batch, sbFrags.append(FRAGS).append(frags), worldBounds.getLeft(), worldBounds.getTop());
+        sbHealthPoint.setLength(0);
+        font.draw(batch, sbHealthPoint.append(HEALTH_POINT).append(mainShip.getHealthPoint()), worldBounds.pos.x, worldBounds.getTop() - 0.01f, Align.center); //Align.center - выравнивание по центру
 
+        sbLevel.setLength(0);
+        font.draw(batch, sbLevel.append(LEVEL).append(level), worldBounds.getRight(), worldBounds.getTop() - 0.01f, Align.right);
     }
+
+//    private void printLevel() {
+//        sbShowLevel.setLength(0);
+//        fontForPrintLevel.draw(batch, sbShowLevel.append(LEVEL).append(level), worldBounds.getLeft() + 0.1f, worldBounds.getHalfHeight(), Align.center);
+//    }
 }

@@ -23,6 +23,6 @@ public class ButtonNewGame extends ScaledTouchUpButton {
     @Override
     public void resize(Rect worldBounds) {
         setHeightProportion(0.12f);
-        setBottom(-0.15f);
+        setBottom(-0.18f);
     }
 }

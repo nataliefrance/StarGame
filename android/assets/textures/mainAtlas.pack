@@ -38,11 +38,11 @@ game_over
   orig: 360, 87
   offset: 0, 0
   index: -1
-mainShip
+dogShip
   rotate: false
-  xy: 353, 124
-  size: 200, 109
-  orig: 200, 109
+  xy: 353, 133
+  size: 279, 100
+  orig: 279, 100
   offset: 0, 0
   index: -1
 enemy0
@@ -52,45 +52,24 @@ enemy0
   orig: 204, 93
   offset: 0, 0
   index: -1
-catShip
-  rotate: false
-  xy: 555, 124
-  size: 160, 109
-  orig: 160, 109
-  offset: 0, 0
-  index: -1
-dogShip
-  rotate: false
-  xy: 717, 146
-  size: 186, 100
-  orig: 186, 100
-  offset: 0, 0
-  index: -1
-laser
-  rotate: false
-  xy: 981, 298
-  size: 36, 180
-  orig: 36, 180
-  offset: 0, 0
-  index: -1
 star
   rotate: false
-  xy: 921, 291
+  xy: 634, 183
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
-enemyBullet
-  rotate: false
-  xy: 921, 253
-  size: 36, 36
-  orig: 36, 36
-  offset: 0, 0
-  index: -1
 bulletMainShip
   rotate: false
-  xy: 717, 111
-  size: 32, 33
-  orig: 32, 33
+  xy: 981, 444
+  size: 33, 34
+  orig: 33, 34
+  offset: 0, 0
+  index: -1
+enemyBullet
+  rotate: false
+  xy: 353, 99
+  size: 32, 32
+  orig: 32, 32
   offset: 0, 0
   index: -1

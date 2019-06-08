@@ -15,6 +15,7 @@ public class EnemyShip extends Ship {
     private State state;
     private Vector2 descentV = new Vector2(0, -0.15f);
     private MainShip mainShip;
+    private int score;
 
     public EnemyShip(BulletPool bulletPool, ExplosionPool explosionPool, Sound bulletSound, Rect worldBounds, MainShip mainShip) {
         this.bulletPool = bulletPool;
@@ -61,7 +62,7 @@ public class EnemyShip extends Ship {
             int damage,
             float reloadInterval,
             float height,
-            int healthPoint) {
+            int healthPoint, int score) {
         this.regions = regions;
         this.v0.set(v0);
         this.bulletV.set(0, bulletV_Y);
@@ -73,14 +74,19 @@ public class EnemyShip extends Ship {
         setHeightProportion(height);
         this.healthPoint = healthPoint;
         this.state = State.DESCENT;
+        this.score = score;
     }
 
     public boolean isBulletCollision(Rect bullet) {
         return !(
                 bullet.getRight() < getLeft()
-                || bullet.getLeft() > getRight()
-                || bullet.getBottom() > getTop()
-                || bullet.getTop() < pos.y
+                        || bullet.getLeft() > getRight()
+                        || bullet.getBottom() > getTop()
+                        || bullet.getTop() < pos.y
         );
+    }
+
+    public int getScore() {
+        return score;
     }
 }

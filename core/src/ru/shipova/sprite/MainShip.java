@@ -24,21 +24,24 @@ public class MainShip extends Ship {
 
     private Sound moveSound;
 
+    private Vector2 bullet1Pos;
+    private Vector2 bullet2Pos;
+
 //    private boolean autoShoot;
 
     private int leftPointer = INVALID_POINTER; //первый палец
     private int rightPointer = INVALID_POINTER; //второй палец
 
     public MainShip(TextureAtlas atlas, BulletPool bulletPool, ExplosionPool explosionPool, Sound bulletSound) {
-        super(atlas.findRegion("dogShip"), 1, 2, 2);
+        super(atlas.findRegion("dogShip"), 1, 3, 3);
         this.bulletPool = bulletPool;
         this.explosionPool = explosionPool;
         this.bulletRegion = atlas.findRegion("bulletMainShip");
         this.v = new Vector2();
         this.v0 = new Vector2(0.5f, 0f);
         this.bulletV = new Vector2(0, 0.5f);
-//        bullet1Pos = new Vector2();
-//        bullet2Pos = new Vector2();
+        bullet1Pos = new Vector2();
+        bullet2Pos = new Vector2();
         this.moveSound = Gdx.audio.newSound(Gdx.files.internal("audio/move.mp3"));
         this.reloadInterval = 0.3f;
         this.bulletHeight = 0.01f;
@@ -130,18 +133,20 @@ public class MainShip extends Ship {
         return false;
     }
 
-//    private void shoot() {
-//        Bullet bullet1 = bulletPool.obtain();
-//        Bullet bullet2 = bulletPool.obtain();
-//        bullet1Pos.set(pos);
-//        bullet1Pos.x -= 0.03f;
-//        bullet1Pos.y += 0.03f;
-//        bullet2Pos.set(pos);
-//        bullet2Pos.x += 0.03f;
-//        bullet2Pos.y += 0.03f;
-//        bullet1.set(this, bulletRegion, bullet1Pos, bulletV, 0.01f, worldBounds, 1);
-//        bullet2.set(this, bulletRegion, bullet2Pos, bulletV, 0.01f, worldBounds, 1);
-//    }
+    protected void shoot() {
+        frame = 2;
+        Bullet bullet1 = bulletPool.obtain();
+        Bullet bullet2 = bulletPool.obtain();
+        bullet1Pos.set(pos);
+        bullet1Pos.x -= 0.03f;
+        bullet1Pos.y += 0.03f;
+        bullet2Pos.set(pos);
+        bullet2Pos.x += 0.03f;
+        bullet2Pos.y += 0.03f;
+        bullet1.set(this, bulletRegion, bullet1Pos, bulletV, 0.015f, worldBounds, 1);
+        bullet2.set(this, bulletRegion, bullet2Pos, bulletV, 0.015f, worldBounds, 1);
+        bulletSound.play(1.0f);
+    }
 
     public boolean touchDown(Vector2 touch, int pointer) {
         if (touch.x < worldBounds.pos.x) {

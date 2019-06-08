@@ -1,7 +1,6 @@
 package ru.shipova.base;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -17,7 +16,8 @@ public class Font extends BitmapFont {
         getData().setScale(size / getCapHeight());// делим наш размер на высоту самого большого заглавного символа
     }
 
-//    public GlyphLayout draw(Batch batch, CharSequence str, float x, float y, int halign) {
-//        return super.draw(batch, str, x, y, 0f, halign, false);
-//    }
+    //метод draw с выравниванием
+    public GlyphLayout draw(Batch batch, CharSequence str, float x, float y, int halign) {
+        return super.draw(batch, str, x, y, 0f, halign, false);
+    }
 }
