@@ -61,14 +61,9 @@ public class GameScreen extends BaseScreen {
     private int level;
 
     private Font font;
-//    private Font fontForPrintLevel;
     private StringBuilder sbScore;
     private StringBuilder sbHealthPoint;
     private StringBuilder sbLevel;
-//    private StringBuilder sbShowLevel;
-
-//    private int timer;
-//    private boolean printNewLevel;
 
     @Override
     public void show() {
@@ -78,8 +73,6 @@ public class GameScreen extends BaseScreen {
         atlas = new TextureAtlas("textures/mainAtlas.pack");
         font = new Font("font/font.fnt", "font/font.png");
         font.setSize(0.03f); //3% от высоты экрана
-//        fontForPrintLevel = new Font("font/font.fnt", "font/font.png");
-//        fontForPrintLevel.setSize(0.5f); //3% от высоты экрана
         starArray = new Star[STAR_COUNT];
         for (int i = 0; i < STAR_COUNT; i++) {
             starArray[i] = new Star(atlas);
@@ -97,7 +90,6 @@ public class GameScreen extends BaseScreen {
         sbScore = new StringBuilder();
         sbHealthPoint = new StringBuilder();
         sbLevel = new StringBuilder();
-//        sbShowLevel = new StringBuilder();
         music = Gdx.audio.newMusic(Gdx.files.internal("audio/gameMusic.mp3"));
         music.setVolume(0.2f);
         music.setLooping(true);
@@ -317,9 +309,4 @@ public class GameScreen extends BaseScreen {
         sbLevel.setLength(0);
         font.draw(batch, sbLevel.append(LEVEL).append(level), worldBounds.getRight(), worldBounds.getTop() - 0.01f, Align.right);
     }
-
-//    private void printLevel() {
-//        sbShowLevel.setLength(0);
-//        fontForPrintLevel.draw(batch, sbShowLevel.append(LEVEL).append(level), worldBounds.getLeft() + 0.1f, worldBounds.getHalfHeight(), Align.center);
-//    }
 }
