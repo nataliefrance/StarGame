@@ -15,17 +15,17 @@ public class EnemyGenerator {
     private static final float ENEMY_SMALL_BULLET_HEIGHT = 0.01f;
     private static final float ENEMY_SMALL_BULLET_V_Y = -0.3f; //Скорость пули по оси Y
     private static final int ENEMY_SMALL_BULLET_DAMAGE = 1;
-    private static final float ENEMY_SMALL_RELOAD_INTERVAL = 3f;
+    private static final float ENEMY_SMALL_RELOAD_INTERVAL = 1f;
     private static final int ENEMY_SMALL_HEALTH_POINT = 2;
-    private static final int ENEMY_SMALL_SCORE = 2;
+    private static final int ENEMY_SMALL_SCORE = 20;
 
     private static final float ENEMY_MEDIUM_HEIGHT = 0.1f;
     private static final float ENEMY_MEDIUM_BULLET_HEIGHT = 0.02f;
     private static final float ENEMY_MEDIUM_BULLET_V_Y = -0.25f; //Скорость пули по оси Y
     private static final int ENEMY_MEDIUM_BULLET_DAMAGE = 5;
-    private static final float ENEMY_MEDIUM_RELOAD_INTERVAL = 4f;
+    private static final float ENEMY_MEDIUM_RELOAD_INTERVAL = 2f;
     private static final int ENEMY_MEDIUM_HEALTH_POINT = 5;
-    private static final int ENEMY_MEDIUM_SCORE = 5;
+    private static final int ENEMY_MEDIUM_SCORE = 50;
 
     private static final float ENEMY_BIG_HEIGHT = 0.2f;
     private static final float ENEMY_BIG_BULLET_HEIGHT = 0.04f;
@@ -33,7 +33,7 @@ public class EnemyGenerator {
     private static final int ENEMY_BIG_BULLET_DAMAGE = 10;
     private static final float ENEMY_BIG_RELOAD_INTERVAL = 1f;
     private static final int ENEMY_BIG_HEALTH_POINT = 10;
-    private static final int ENEMY_BIG_SCORE = 10;
+    private static final int ENEMY_BIG_SCORE = 100;
 
     private Rect worldBounds;
 

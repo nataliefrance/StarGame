@@ -34,7 +34,7 @@ public class GameScreen extends BaseScreen {
     private static final String SCORE = "Score: ";
     private static final String HEALTH_POINT = "HP: ";
     private static final String LEVEL = "Level: ";
-    private static final int SCORE_FOR_NEW_LEVEL = 10;
+    private static final int SCORE_FOR_NEW_LEVEL = 500;
 
     private enum State {PLAYING, PAUSE, GAME_OVER}
 
@@ -72,7 +72,7 @@ public class GameScreen extends BaseScreen {
         background = new Background(new TextureRegion(bg));
         atlas = new TextureAtlas("textures/mainAtlas.pack");
         font = new Font("font/font.fnt", "font/font.png");
-        font.setSize(0.03f); //3% от высоты экрана
+        font.setSize(0.02f); //3% от высоты экрана
         starArray = new Star[STAR_COUNT];
         for (int i = 0; i < STAR_COUNT; i++) {
             starArray[i] = new Star(atlas);
@@ -292,6 +292,7 @@ public class GameScreen extends BaseScreen {
         state = State.PLAYING;
 
         score = 0;
+        level = 1;
 
         mainShip.startNewGame();
         bulletPool.freeAllActiveObjects();

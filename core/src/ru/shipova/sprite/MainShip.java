@@ -38,7 +38,7 @@ public class MainShip extends Ship {
         this.explosionPool = explosionPool;
         this.bulletRegion = atlas.findRegion("bulletMainShip");
         this.v = new Vector2();
-        this.v0 = new Vector2(0.5f, 0f);
+        this.v0 = new Vector2(0.3f, 0f);
         this.bulletV = new Vector2(0, 0.5f);
         bullet1Pos = new Vector2();
         bullet2Pos = new Vector2();
